@@ -97,11 +97,11 @@ seq_pool.close()
 
 
 # Define the path to the MAFFT executable
-mafft_exec = "./bin/mafft.bat"
+#mafft_exec = "./bin/mafft.bat"
 #mafft_exec = "./mafft/mafft-win/mafft.bat"
 # Turn the exec to absolute path
-mafft_exec = os.path.abspath(mafft_exec)
-
+#mafft_exec = os.path.abspath(mafft_exec)
+mafft_exec = "mafft"
 input = os.path.abspath("./seqs/seq_pool.fas")
 output = os.path.abspath("./seqs/seq_pool_aln.fas")
 # Construct the MAFFT command as a single string
