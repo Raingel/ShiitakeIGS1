@@ -1,6 +1,3 @@
 pandas
-subprocess
-os
-shutil
 requests
 xml
