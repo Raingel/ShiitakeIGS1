@@ -96,3 +96,20 @@ for index, row in raw_df[:].iterrows():
 seq_pool.close()
 
 
+# Define the path to the MAFFT executable
+mafft_exec = "./bin/mafft.bat"
+#mafft_exec = "./mafft/mafft-win/mafft.bat"
+# Turn the exec to absolute path
+mafft_exec = os.path.abspath(mafft_exec)
+
+input = os.path.abspath("./seq_pool.fas")
+output = os.path.abspath("./seq_pool_aln.fas")
+# Construct the MAFFT command as a single string
+mafft_command = f'"{mafft_exec}" --maxiterate 2  "{input}" > "{output}"'
+# Run MAFFT
+out = subprocess.run(mafft_command, shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+print(">>", mafft_command)
+print("Output:")
+print(out.stdout)
+print("Exception:")
+print(out.stderr)
