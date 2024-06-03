@@ -72,7 +72,7 @@ raw_df.fillna("-", inplace=True)
 
 # %%
 os.makedirs(ROOT+"/seqs", exist_ok=True)
-seq_pool = open(ROOT+"/seqs/seq_pool.fasta", "w")
+seq_pool = open(ROOT+"/seqs/seq_pool.fas", "w")
 for index, row in raw_df[:].iterrows():
     #Get accession No. from col Accession No. 1, Accession No. 2, Accession No. 3
     acc1 = row["Accession No. 1"]
@@ -102,8 +102,8 @@ mafft_exec = "./bin/mafft.bat"
 # Turn the exec to absolute path
 mafft_exec = os.path.abspath(mafft_exec)
 
-input = os.path.abspath("./seq_pool.fas")
-output = os.path.abspath("./seq_pool_aln.fas")
+input = os.path.abspath("./seqs/seq_pool.fas")
+output = os.path.abspath("./seqs/seq_pool_aln.fas")
 # Construct the MAFFT command as a single string
 mafft_command = f'"{mafft_exec}" --maxiterate 2  "{input}" > "{output}"'
 # Run MAFFT
