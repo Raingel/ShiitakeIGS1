@@ -17,6 +17,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Install MAFFT
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y mafft
     - name: exec database_constructor.py
       run: |
         python database_constructor.py
