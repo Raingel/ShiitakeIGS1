@@ -5,7 +5,6 @@ import os
 import shutil
 import requests
 import xml.etree.ElementTree as ET
-acc_list_URI = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3cooBMvobYtx5V4v60sPf63NjUr58R3A8bRYHIzqy2M0WxwPI94SmOMnvYHL0Dg/pub?gid=1679971023&single=true&output=csv"
 
 # %%
 def get_gb_by_acc (acc = "LC813555", retry=10):
@@ -66,7 +65,7 @@ def _exec(cmd,suppress_output=True):
 ROOT = "./"
 
 # %%
-raw_df = pd.read_csv(acc_list_URI)
+raw_df = pd.read_excel(ROOT+"shiitake_list.xlsx")
 #Replace NaN to -
 raw_df.fillna("-", inplace=True)
 
@@ -75,9 +74,9 @@ os.makedirs(ROOT+"/seqs", exist_ok=True)
 seq_pool = open(ROOT+"/seqs/seq_pool.fas", "w")
 for index, row in raw_df[:].iterrows():
     #Get accession No. from col Accession No. 1, Accession No. 2, Accession No. 3
-    acc1 = row["Accession No. 1"]
-    acc2 = row["Accession No. 2"]
-    acc3 = row["Accession No. 3"]
+    acc1 = row["Accession 1"]
+    acc2 = row["Accession 2"]
+    acc3 = row["Accession 3"]
     cultivar = row["Cultivar"]
     seq_title = f'{row["Strain"]}||{row["Cultivar"]}||{row["Locality"]}'
     #Get the data from genbank
@@ -102,8 +101,8 @@ seq_pool.close()
 # Turn the exec to absolute path
 #mafft_exec = os.path.abspath(mafft_exec)
 mafft_exec = "mafft"
-input = os.path.abspath("./seqs/seq_pool.fas")
-output = os.path.abspath("./seqs/seq_pool_aln.fas")
+input = os.path.abspath(ROOT+"/seqs/seq_pool.fas")
+output = os.path.abspath(ROOT+"/seqs/seq_pool_aln.fas")
 # Construct the MAFFT command as a single string
 mafft_command = f'"{mafft_exec}" --maxiterate 2  "{input}" > "{output}"'
 # Run MAFFT
@@ -113,3 +112,48 @@ print("Output:")
 print(out.stdout)
 print("Exception:")
 print(out.stderr)
+
+# %%
+#Read the MSA and check the shortest sequence, trimmed all the sequences to fit the shortest one
+msa = open(ROOT+"/seqs/seq_pool_aln.fas", "r")
+start = 0
+end = 99999
+for record in fasta_reader(msa):
+    start_tmp = 0
+    end_tmp = -1
+    for i in range(len(record["seq"])):
+        if record["seq"][i] != "-":
+            start_tmp = i
+            break
+    for i in range(len(record["seq"])):
+        if record["seq"][len(record["seq"])-1-i] != "-":
+            end_tmp = len(record["seq"])-1-i +1  #Plus 1 is due to python's slice rule
+            break
+    if start_tmp > start:
+        start = start_tmp
+    if end_tmp < end:
+        end = end_tmp
+msa.close()
+#Trim the MSA
+print(f"Trim the MSA from {start+1} to {end}")
+with open(ROOT+"/seqs/seq_pool_aln.fas", "r") as msa:
+    with open(ROOT+"/seqs/seq_pool_aln_trimmed.fas", "w") as msa_trimmed:
+        with open(ROOT+"/seqs/seq_pool_aln_trimmed_nogap.fas", "w") as msa_trimmed_nogap:
+            for record in fasta_reader(msa):
+                msa_trimmed.write(f'>{record["title"]}\n{record["seq"][start:end]}\n')
+                msa_trimmed_nogap.write(f'>{record["title"]}\n{record["seq"][start:end].replace("-","")}\n')
+
+#read sequnces from seq_pool_aln_trimmed_nogap.fas
+seq_pool = open(ROOT+"/seqs/seq_pool_aln_trimmed_nogap.fas", "r")
+#Loop over all sequeces, if identical sequences are found, concatenate their titles
+seq_dict = {}
+for seq in fasta_reader(seq_pool):
+    if seq["seq"] in seq_dict:
+        seq_dict[seq["seq"]] += f';{seq["title"]}'
+    else:
+        seq_dict[seq["seq"]] = seq["title"]
+
+with open(ROOT+"/seqs/seq_pool_aln_trimmed_nogap_unique.fas", "w") as handle:
+    for key in seq_dict:
+        handle.write(f">{seq_dict[key]}\n{key}\n")
+# %%
