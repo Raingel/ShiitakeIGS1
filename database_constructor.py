@@ -76,10 +76,10 @@ for index, row in raw_df.iterrows():
     acc2 = row["Accession 2"]
     acc3 = row["Accession 3"]
     seq_title = f'{row["Strain"]}||{row["Cultivar"]}||{row["Locality"]}'
-    for acc in [acc1, acc2, acc3]:
+    for i, acc in enumerate([acc1, acc2, acc3], 1):
         if str(acc) != "-":
             acc_list.append(acc)
-            seq_info_map[acc] = seq_title
+            seq_info_map[acc] = f"{seq_title}||{i}"
 
 print(f"Total accessions to fetch: {len(acc_list)}")
 
