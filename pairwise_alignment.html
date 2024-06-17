@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pairwise Alignment</title>
     <style>
-
         #container {
             max-width: 85%;
             margin: 0 auto;
             padding: 20px;
         }
+
         form {
             margin-bottom: 20px;
             background-color: #f9f9f9;
@@ -218,9 +218,11 @@
         #alignment-popup button:hover {
             background-color: #c82333;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5; /* 修改背景顏色 */
+            background-color: #f0f2f5;
+            /* 修改背景顏色 */
             color: #333;
         }
 
@@ -230,6 +232,7 @@
             color: white;
             font-family: Arial, sans-serif;
         }
+
         .banner-text {
             position: absolute;
             top: 50%;
@@ -241,23 +244,49 @@
             padding: 10px 20px;
             border-radius: 5px;
         }
+
         .banner-image {
             width: 100%;
             height: auto;
             border-radius: 8px;
-            opacity: 1; /* 调整透明度，值在0到1之间 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+            opacity: 1;
+            /* 调整透明度，值在0到1之间 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* 添加阴影 */
         }
+
         .content {
             padding: 20px;
-            background-color: #fff; /* 白色背景 */
+            background-color: #fff;
+            /* 白色背景 */
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* 添加阴影 */
             max-width: 800px;
             margin: 20px auto;
         }
+
         h2 {
-            color: #8b4513; /* 深棕色 */
+            color: #8b4513;
+            /* 深棕色 */
+        }
+        .confusion-matrix {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: center;
+        }
+        .confusion-matrix th, .confusion-matrix td {
+            border: 1px solid #ddd;
+            padding: 12px;
+        }
+        .confusion-matrix th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        .confusion-matrix td {
+            text-align: center;
         }
     </style>
     <!--Bootstrap-->
@@ -274,17 +303,16 @@
 <body>
     <div id="container">
         <div class="banner-container">
-            <img src="https://raw.githubusercontent.com/Raingel/ShiitakeIGS1/main/banner.jpg" alt="Mushroom Banner" class="banner-image">
+            <img src="https://raw.githubusercontent.com/Raingel/ShiitakeIGS1/main/banner.jpg" alt="Mushroom Banner"
+                class="banner-image">
             <div class="banner-text">Shiitake IGS1 Sequence Database</div>
         </div>
         <form id="alignment-form">
             <label for="sequence-input-1">Query 1:</label>
-            <textarea id="sequence-input-1" rows="4"
-                cols="50"></textarea><br>
+            <textarea id="sequence-input-1" rows="4" cols="50"></textarea><br>
 
             <label for="sequence-input-2">Query 2:</label>
-            <textarea id="sequence-input-2" rows="4"
-                cols="50"></textarea><br>
+            <textarea id="sequence-input-2" rows="4" cols="50"></textarea><br>
 
             <label for="sequence-input-3">Query 3:</label>
             <textarea id="sequence-input-3" rows="4" cols="50"></textarea><br>
@@ -325,7 +353,7 @@
 
 
 
-    
+
     <script>
         var internalSequences = `>Akiyama_A221||Akiyama_A221||Japan||1||AB251715;Kawamurashiki_O_2||Kawamurashiki_O_2||Japan||1||AB251776;Meiji_369||Meiji_369||Japan||1||AB251751;KRCF829||Akiyama_A800||Japan||1||AB728657;KRCF816||Kinko_241||Japan||2||AB728656;Kinko327||Kinko_327||Japan||1||AB728654;KRCF1101||KRCF1101||Japan||1||AB781593;KRCF603||Mori_290||Japan||1||AB728655;Cr04||Cr04||China||2||MF541556;Cr20||Cr20||China||2||MF541558;Hunong No.1||Hunong No.1||China||1||MF541570;Junxing No.8||Junxing No.8||China||1||MF541574;L04||L04||China||1||MF541578;L241-4||L241-4||China||1||MF541587;L26||L26||China||1||MF541579;L931||L931||China||1||MF541594;Senyuan 8404||Senyuan 8404||China||1||MF541623;Senyuan No.1||Senyuan No.1||China||2||MF541626;Shenxiang No.12||Shenxiang No.12||China||1||MF541634;Shenxiang No.8||Shenxiang No.8||China||1||MF541630;Suxiang No.1||Suxiang No.1||China||1||MF541637;Xiangza No.26||Xiangza No.26||China||2||MF541640;MU30905||320||Pingtung County, Taiwan||1||LC813573
 ttgttctaaagatttgttcaacttgtttgaactttttcttttatttttcttaacggcatgcaccctaagggcaggctttcaatgcgttggatgctgtgagtattgatattttttgtgacttttttatgatgactctattctcttccccgtcttatacgactatgctgagaaacagaggtaattctgttcgcaacagaatatttgtgtcctttggggatacacaagtgtacttgccagtgccatttagtctgaatctgtcttttgaaaactactttctgatacactacaactgacaatacttttttctcagaaaccaaacaacaattatgaaagcttctatccggggtgtgttaaactggtaagttgcattttcttcccaacttttctgcagctttgtgtctatctattcccttatatgatgaaaatttccatacattcgcagtttccacttgagtgtccaattagtactcccctaatgcagaatgttctttatattccccctctataccatgttgaacccataaagcatgtgttgagtgtgggccatctccaaaagagatgcgctggcaggaagcaggggttgacactatgagggttataatgtccttcctttggatgtctgaactaccttttcttttcactctcttcttttttctcttagagtgctgtaactaattggtcataatcccctccttgcaggtacttatggtatcagtgaagttgtttatatattgtacttcagtatatcatcagtaaagtggtgcagtaagtgtgttaagttaataacagtcagtcagtataagttaataacagtcagtcagtataagttaataacagttcagtcagtaagtgtgttaagttaataacagttcagtcagtaagtgtgttaagttaataacagttcagtcagtaagtgtgttaaattataacagttagtcagtaaactgtgttaagttacaacagtttggtcagtaagtgtgttaaattatagttactaaagattgggaaaaaagaagggtacatagttgg
@@ -890,51 +918,98 @@ ttgttctaaagatttgttcaaacttgtttgaactttttcttttatttttcttaacggcatgcaccctaagggcaggcttt
                 document.getElementById('alignButton').disabled = false;
             }, 0);
         }
-
         function displayAlignmentResultsPopup(results1, results2, results3, strain) {
+            //篩選出包含目標strain的結果
             results1 = results1.flat().filter(result => result.id.includes(strain.split('(')[0]));
             results2 = results2.flat().filter(result => result.id.includes(strain.split('(')[0]));
             results3 = results3.flat().filter(result => result.id.includes(strain.split('(')[0]));
             results_pool = { 1: results1, 2: results2, 3: results3 };
+
             const alignmentResultsDiv = document.getElementById('alignment-results');
             alignmentResultsDiv.innerHTML = '<h2>Alignment Results for ' + strain + '</h2>';
             const ul = document.createElement('ul');
+
+            // Confusion matrix generation
+            const querySequences = [results1, results2, results3].filter(res => res.length > 0);
+            console.log(querySequences);
+            if (querySequences.length > 0) {
+                const numQueries = querySequences.length;
+                const databaseSequences = querySequences[0].map(result => result.id);
+                const numDatabase = databaseSequences.length;
+                var strains_cultivars_list = [];
+                let confusionMatrixHtml = '<table class="confusion-matrix"><tr><th></th>';
+                console.log("numDatabase", numDatabase);
+                for (let i = 0; i < numDatabase; i++) {
+                    let strains_cultivars = databaseSequences[i].split(';');
+                    strains_cultivars = strains_cultivars.filter(sc => sc.includes(strain.split('(')[0]));
+                    if (strains_cultivars.length > 0) {
+                        strains_cultivars_list = strains_cultivars_list.concat(strains_cultivars);
+                    }
+                    //let variant_no = strains_cultivars[0].split('||')[3];
+                    //confusionMatrixHtml += `<th>${strain} <br />variant ${variant_no}</th>`;
+                }
+                //將找到的strains_cultivars_list畫到th中
+                for (let i = 0; i < strains_cultivars_list.length; i++) {
+                    let variant_no = strains_cultivars_list[i].split('||')[3];
+                    confusionMatrixHtml += `<th>${strain} <br />variant ${variant_no}</th>`;
+                }
+                confusionMatrixHtml += '</tr>';
+                console.log(strains_cultivars_list);
+                for (let i = 0; i < numQueries; i++) {         
+                    confusionMatrixHtml += `<tr><th>Query Seq ${i + 1}</th>`;
+                    //兩筆query得到的querySequences的順序會不一樣，因為相似度高的會排在前面。所以得先從前面紀錄的strains_cultivars_list來找出對應的index
+                    //首先輪迴每個strains_cultivars_list
+                    for (let j = 0; j < strains_cultivars_list.length; j++) {
+                        //再輪迴每個querySequences
+                        for (let k = 0; k < querySequences[i].length; k++) {
+                            //如果querySequences的id包含strains_cultivars_list的id，則將該筆資料的index記錄下來
+                            if (querySequences[i][k].id.includes(strains_cultivars_list[j])) {
+                                //如果該querySequences的id包含strains_cultivars_list的id，則列印該數值到td中
+                                const similarity = querySequences[i][k].similarity;
+                                confusionMatrixHtml += `<td style="background-color: ${getBackgroundColor(similarity)};">${similarity}%</td>`;
+                            }
+                        }
+                    }
+                    //for (let j = 0; j < numDatabase; j++) {
+                    //    const similarity = querySequences[i][j].similarity;
+                    //    confusionMatrixHtml += `<td style="background-color: ${getBackgroundColor(similarity)};">${similarity}%</td>`;
+                    //}
+                    confusionMatrixHtml += '</tr>';
+                }
+
+                confusionMatrixHtml += '</table>';
+                alignmentResultsDiv.innerHTML += confusionMatrixHtml;
+            }
+
+            
             for (let i = 1; i <= 3; i++) {
                 let results = results_pool[i];
-                results = results.sort((a, b) => b.similarity - a.similarity);
-                results.forEach(result => {
-                    const li = document.createElement('li');
-                    //"Akiyama_A221||Akiyama_A221||Japan||1;Kawamurashiki_O_2||Kawamurashiki_O_2||Japan||1;Meiji_369||Meiji_369||Japan||1;KRCF829||Akiyama_A800||Japan||1;KRCF816||Kinko_241||Japan||2;Kinko327||Kinko_327||Japan||1;KRCF1101||KRCF1101||Japan||1;KRCF603||Mori_290||Japan||1;Cr04||Cr04||China||2;Cr20||Cr20||China||2;Hunong No.1||Hunong No.1||China||1;Junxing No.8||Junxing No.8||China||1;L04||L04||China||1;L241-4||L241-4||China||1;L26||L26||China||1;L931||L931||China||1;Senyuan 8404||Senyuan 8404||China||1;Senyuan No.1||Senyuan No.1||China||2;Shenxiang No.12||Shenxiang No.12||China||1;Shenxiang No.8||Shenxiang No.8||China||1;Suxiang No.1||Suxiang No.1||China||1;Xiangza No.26||Xiangza No.26||China||2;MU30905||320||Pingtung County, Taiwan||1"
-                    let strains_cultivars = result.id.split(';');
-                    //filter out string contains strain
-                    //>Akiyama_A817||Akiyama_A817||Japan||1||AB251726;KRCF576||Mori_436||Japan||2||AB728668;L952||L952||China||1||MF541600;MU31000||Y3||Nantou County, Taiwan||1||LC813619
-                    strains_cultivars = strains_cultivars.filter(sc => sc.includes(strain.split('(')[0]));
-
-                    if (strains_cultivars.length > 0) {
-                        strains_cultivars = strains_cultivars[0];
-                    } else {
-                        strains_cultivars = '';
+                //依據strain_cultivars_list的順序，將結果依序列出
+                for (let j = 0; j < strains_cultivars_list.length; j++) {
+                    let strains_cultivars = strains_cultivars_list[j];
+                    let variant_no = strains_cultivars.split('||')[3];
+                    let accession_no = strains_cultivars.split('||')[4];
+                    let result = results.filter(res => res.id.includes(strains_cultivars));
+                    if (result.length > 0) {
+                        result = result[0];
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                                    <p><strong>Query ${i}</strong>: Comparison with <strong>${strain} variant ${variant_no}</strong> Accession No. <a href="https://www.ncbi.nlm.nih.gov/nuccore/${accession_no}" target="_blank">${accession_no}</a></p>
+                                    <p>Similarity: <span class="badge ${getBadgeClass(result.similarity)} custom-badge">${result.similarity}%</span></p>
+                                    <p>Aligned BP: <span class="badge badge-info custom-badge">${result.alignedLength}</span>, 
+                                        Coverage: <span class="badge ${getBadgeClass(result.coverage)} custom-badge">${result.coverage}%</span>,
+                                        Matches: <span class="badge ${getBadgeClass(result.matches)} custom-badge">${result.matches}</span>,
+                                        Mismatches: <span class="badge ${getBadgeClass(result.mismatches, true)} custom-badge">${result.mismatches}</span>, 
+                                        Gaps: <span class="badge ${getBadgeClass(result.gaps, true)} custom-badge">${result.gaps}</span>, 
+                                    </p>
+                                    <div class="alignment-result">
+                                        <div>Query: ${result.alignedSeq1}</div>
+                                        <div>Ref. : ${result.alignedSeq2}</div>
+                                    </div>
+                                `;
+                        ul.appendChild(li);
                     }
-                    polymorphism_no = strains_cultivars.split('||')[3];
-                    accession_no = strains_cultivars.split('||')[4];
-                    li.innerHTML = `
-                    <p><strong>Query ${i}</strong>: Comparison with <strong>${strain} polymorphism ${polymorphism_no}</strong> Accession No. <a href="https://www.ncbi.nlm.nih.gov/nuccore/${accession_no}" target="_blank">${accession_no}</a></p>
-                    <p>Similarity: <span class="badge ${getBadgeClass(result.similarity)} custom-badge">${result.similarity}%</span></p>
-                    <p>Aligned BP: <span class="badge badge-info custom-badge">${result.alignedLength}</span>, 
-                        <!--Score: <span class="badge badge-primary custom-badge">${result.score}</span>, -->
-                        Coverage: <span class="badge ${getBadgeClass(result.coverage)} custom-badge">${result.coverage}%</span>,
-                        Matches: <span class="badge ${getBadgeClass(result.matches)} custom-badge">${result.matches}</span>,
-                        Mismatches: <span class="badge ${getBadgeClass(result.mismatches, true)} custom-badge">${result.mismatches}</span>, 
-                        Gaps: <span class="badge ${getBadgeClass(result.gaps, true)} custom-badge">${result.gaps}</span>, 
-                        
-                    </p>
-                    <div class="alignment-result">
-                        <div>Query: ${result.alignedSeq1}</div>
-                        <div>Ref. : ${result.alignedSeq2}</div>
-                    </div>
-                `;
-                    ul.appendChild(li);
-                });
+                }
             }
             alignmentResultsDiv.appendChild(ul);
             document.getElementById('alignment-popup').style.display = 'block';
@@ -956,6 +1031,20 @@ ttgttctaaagatttgttcaaacttgtttgaactttttcttttatttttcttaacggcatgcaccctaagggcaggcttt
                     } else {
                         return 'badge-danger';
                     }
+                }
+            }
+
+            function getBackgroundColor(similarity) {
+                if (similarity === '-') {
+                    return 'white';
+                }
+                similarity = parseFloat(similarity);
+                if (similarity >= 99) {
+                    return '#b3ffb3'; // light green
+                } else if (similarity >= 95) {
+                    return '#ffff99'; // light yellow
+                } else {
+                    return '#ff9999'; // light red
                 }
             }
         }
