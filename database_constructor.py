@@ -63,7 +63,7 @@ def _exec(cmd, suppress_output=True):
         return out.stdout.decode('utf-8'), out.stderr
 # %%
 ROOT = "./"
-raw_df = pd.read_excel(ROOT + "shiitake_list.xlsx")
+raw_df = pd.read_csv(ROOT + "shiitake_list.csv")
 raw_df.fillna("-", inplace=True)
 
 os.makedirs(ROOT + "/seqs", exist_ok=True)
@@ -137,3 +137,30 @@ for seq in fasta_reader(seq_pool):
 with open(ROOT + "/seqs/seq_pool_aln_trimmed_nogap_unique.fas", "w") as handle:
     for key in seq_dict:
         handle.write(f">{seq_dict[key]}\n{key}\n")
+
+#將最新的序列更新到網頁的資料庫內
+#序列在網頁內是以javascript的字串儲存，如下
+#//db_sequences_start
+#        var internalSequences = `>Akiyama_A221||Akiyama_A221||Japan||1||AB251715;Kawamurashiki_O_2||Kawamurashiki_O_2||Japan||1||AB251776;Meiji_369||Meiji_369||Japan||1||AB251751;KRCF829||Akiyama_A800||Japan||1||AB728657;KRCF816||Kinko_241||Japan||2||AB728656;Kinko327||Kinko_327||Japan||1||AB728654;KRCF1101||KRCF1101||Japan||1||AB781593;KRCF603||Mori_290||Japan||1||AB728655;Cr04||Cr04||China||2||MF541556;Cr20||Cr20||China||2||MF541558;Hunong No.1||Hunong No.1||China||1||MF541570;Junxing No.8||Junxing No.8||China||1||MF541574;L04||L04||China||1||MF541578;L241-4||L241-4||China||1||MF541587;L26||L26||China||1||MF541579;L931||L931||China||1||MF541594;Senyuan 8404||Senyuan 8404||China||1||MF541623;Senyuan No.1||Senyuan No.1||China||2||MF541626;Shenxiang No.12||Shenxiang No.12||China||1||MF541634;Shenxiang No.8||Shenxiang No.8||China||1||MF541630;Suxiang No.1||Suxiang No.1||China||1||MF541637;Xiangza No.26||Xiangza No.26||China||2||MF541640;MU30905||320||Pingtung County, Taiwan||1||LC813573
+#ttgttctaaagatttgttcaacttgtttgaactttttctttta
+#....
+#>MU30863||Wild Strain||Nantou County, Taiwan||2||LC813617;MU31006||Wild Strain||-||1||LC813618;MU31003||-||-||2||LC813622;MU31004||-||-||1||LC813623;MU31005||-||-||1||LC813625
+#ttgttctaaagatttgttcaaacttgtttgaactttttcttttatttttcttaacggcatgcaccctaagggcaggctttcaatgcattggatgctgtgagttgatattttttgtgactcttttatgatgactctattctcttccccgtcttatacgactatgctgagaaacagaggtaattctgttcgcaacagaatatttgtgtcctttggggatacacttagtgtacttgccagtgccatttagtctgaattctgtcttttgaaaaactactttctgatacactacaactaacaatacttttttctcagaaaccaaacaacaattatggaaagcttctgtctgggtgtgttcaactgtgagttgcattttcttcccaacttttctgcagcttgtgtctatctattcccttatatgatgaaaatttccatacattcgcagtttccacttgagtgtccaattagtactcccctaatgcagaatgttctttatattccccctctataccatgttgaacccataaagcatgtgttgagtgtgggccatctccaaaagagatgcgctggcaggaagcaggggttgacactatgagggttataatgtccttcctttggatgtctgaactactttttcttttcactctcttctttttctcttagagtgctgtaactaattggtcataatcccctccttgcaggtacttatggtatcagtgaagttgtactccggtatatcatcagtaaagtggtgttaatgtgtgttaaattataacagtcagtcagtaaagtgtgttaagttaataacagtccagtcagtaagtgtgttaaattataacagtcagtcagtaagtgtgttaagttaataacagtaagtgtgttgagttaataacagtcagtcagtaagtgtgttaagttaataacagtccagtcagtaaagtgtgttaagtcaataacacagtattataacagtcagtcagtaagtgtgttaagttacacaacagtttggtcagttaagtgtgttaaattatagttactaaagattttgaaaaaagaagggtacatagttgg
+#`;
+#//db_sequences_end
+#將這段字串取代成新的序列
+page = "./pairwise_alignment.html"
+
+with open(page, "r") as f:
+    lines = f.readlines()
+#將原本db_sequences_start到db_sequences_end間的序列取代成新的序列
+import re
+lines = "".join(lines)
+new_seq = open(ROOT + "/seqs/seq_pool_aln_trimmed_nogap_unique.fas", "r").read()
+lines = re.sub(r"//db_sequences_start.*//db_sequences_end", f"//db_sequences_start\n        var internalSequences = `{new_seq}`;\n//db_sequences_end", lines, flags=re.DOTALL)
+with open(page, "w") as f:
+    f.write(lines)
+# %%
+
+        
+
