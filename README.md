@@ -52,7 +52,7 @@ Shiitake DNA can be extracted using standard laboratory methods or commercial ki
 ### **✓ Instructions for Using the Webpage**
 
 1. **Upload Your Sequences**:
-   - Use the provided input fields to upload the IGS1 sequences of your shiitake strains. You can upload up to three variants (as the maximum observed variants so far are three).
+   - To upload the IGS1 sequences of your shiitake strains, use the provided input field. Sequences should be formatted in standard FASTA format. Each sequence must begin with a > symbol followed by the sequence title. Multiple sequences can be included by separating them with individual > symbols and titles.
 
     ![Query Box](https://github.com/Raingel/ShiitakeIGS1/blob/main/assets/query_box.jpg?raw=true)
 
