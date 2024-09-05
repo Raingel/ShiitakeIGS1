@@ -1033,19 +1033,19 @@ ttgttctaaagatttgttcaaacttgtttgaactttttcttttatttttcttaacggcatgcaccctaagggcaggcttt
 
             const strainSimilarityDiv = document.getElementById('strain-similarity');
             strainSimilarityDiv.innerHTML = `
-                                            <table id="similarityTable" class="display">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Strain (Cultivar) <br/><small>(click to view alignment results)</small></th>
-                                                        <th>Number of IGS Variants</th>
-                                                        ${userSequences.map((seq, index) => `<th>${seq.id} Similarity (%)</th>`).join('')}
-                                                        <th>Average Similarity (%)</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
-                                        `;
+                <table id="similarityTable" class="display">
+                    <thead>
+                        <tr>
+                            <th>Strain (Cultivar) <br/><small>(click to view alignment results)</small></th>
+                            <th>Number of IGS Variants</th>
+                            ${userSequences.map((seq, index) => `<th>${seq.id} Similarity (%)</th>`).join('')}
+                            <th>Average Similarity (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            `;
 
             const similarityTableBody = strainSimilarityDiv.querySelector('#similarityTable tbody');
             for (const strain in strainSimilarityDict) {
@@ -1060,14 +1060,20 @@ ttgttctaaagatttgttcaaacttgtttgaactttttcttttatttttcttaacggcatgcaccctaagggcaggcttt
                     }
                 }
                 const avgSimilarity = Object.values(sim_results).reduce((acc, val) => acc + (val === '-' ? 0 : parseFloat(val)), 0) / validSimilarityCount;
+                
+                // 計算是否需要設置綠色或黃色背景
+                const numberOfIGSVariants = strainCounts[strain];
+                const querySequenceCount = userSequences.length;
+                const variantBackgroundColor = numberOfIGSVariants === querySequenceCount ? 'lightgreen' : 'lightyellow';
+
                 const row = `
-            <tr>
-                <td><a href="#" class="strain-link" data-strain="${strain}">${strain}</a></td>
-                <td>${strainCounts[strain]}</td>
-                ${Object.values(sim_results).map(similarity => `<td style="background-color: ${getBackgroundColor(similarity)};">${similarity}</td>`).join('')}
-                <td style="background-color: ${getBackgroundColor(avgSimilarity.toFixed(2))};">${avgSimilarity.toFixed(2)}</td>
-            </tr>
-        `;
+                    <tr>
+                        <td><a href="#" class="strain-link" data-strain="${strain}">${strain}</a></td>
+                        <td style="background-color: ${variantBackgroundColor};">${strainCounts[strain]}</td>
+                        ${Object.values(sim_results).map(similarity => `<td style="background-color: ${getBackgroundColor(similarity)};">${similarity}</td>`).join('')}
+                        <td style="background-color: ${getBackgroundColor(avgSimilarity.toFixed(2))};">${avgSimilarity.toFixed(2)}</td>
+                    </tr>
+                `;
                 similarityTableBody.insertAdjacentHTML('beforeend', row);
             }
 
@@ -1099,6 +1105,7 @@ ttgttctaaagatttgttcaaacttgtttgaactttttcttttatttttcttaacggcatgcaccctaagggcaggcttt
                 });
             });
         }
+
         // 添加填入預設序列的函數
         function fillDemoSequences() {
             document.getElementById('fasta-input').value = `>MU30990(588) variant1
