@@ -1066,9 +1066,12 @@ ttgttctaaagatttgttcaaacttgtttgaactttttcttttatttttcttaacggcatgcaccctaagggcaggcttt
                 const querySequenceCount = userSequences.length;
                 const variantBackgroundColor = numberOfIGSVariants === querySequenceCount ? 'lightgreen' : 'lightyellow';
 
+                // 檢查條件是否成立，如果成立，將字體設置為橘色粗體
+                const strainStyle = (numberOfIGSVariants === querySequenceCount && avgSimilarity === 100) ? 'style="font-weight:bold; color:orange;"' : '';
+
                 const row = `
                     <tr>
-                        <td><a href="#" class="strain-link" data-strain="${strain}">${strain}</a></td>
+                        <td><a href="#" class="strain-link" data-strain="${strain}" ${strainStyle}>${strain}</a></td>
                         <td style="background-color: ${variantBackgroundColor};">${strainCounts[strain]}</td>
                         ${Object.values(sim_results).map(similarity => `<td style="background-color: ${getBackgroundColor(similarity)};">${similarity}</td>`).join('')}
                         <td style="background-color: ${getBackgroundColor(avgSimilarity.toFixed(2))};">${avgSimilarity.toFixed(2)}</td>
