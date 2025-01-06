@@ -36,7 +36,8 @@ Shiitake DNA can be extracted using standard laboratory methods or commercial ki
 
 **2. Recommended Primers and PCR Program for Whole rDNA Region:**
 - **Primers:**
-  - LR230: CCACAGCCAAGGGGACGGGCTTGG
+  - LR230: CCACAGCCAAGGGAACGGGCTTGG  
+*(Note: The published article mistakenly listed this sequence as CCACAGCCAA`GGGGA`CGGGCTTGG.)*  
   - LR220: CCCGCCGTTTACCCGCGCTTGG
 - **PCR Program:**
   1. Initial denaturation: 98°C for 2 minutes
@@ -46,8 +47,9 @@ Shiitake DNA can be extracted using standard laboratory methods or commercial ki
   3. Final extension: 68°C for 10 minutes
 
 **Note:**
-1. If your shiitake strains have multiple IGS variants within the genome (as most do), you cannot directly send PCR samples for traditional Sanger sequencing. Instead, use a cloning kit to purify or consider using high-throughput sequencing.
-2. To amplify the full-length rDNA fragment (approximately 10 kb), it is recommended to use high-efficiency DNA polymerases with proofreading capability.
+1. Important In my published article, the sequence for primer LR230 寫成CCACAGCCAAGGGGACGGGCTTGG 。但實際上應該是
+2. If your shiitake strains have multiple IGS variants within the genome (as most do), you cannot directly send PCR samples for traditional Sanger sequencing. Instead, use a cloning kit to purify or consider using high-throughput sequencing.
+3. To amplify the full-length rDNA fragment (approximately 10 kb), it is recommended to use high-efficiency DNA polymerases with proofreading capability.
 
 ### **✓ Instructions for Using the Webpage**
 
@@ -74,8 +76,10 @@ Shiitake DNA can be extracted using standard laboratory methods or commercial ki
    - If you want to see a demonstration, click the "demo" button to load default query sequences (two IGS1 variants of MU30990, cultivar 588) and view the process and results.
 
 ## Citation
-This database is currently under review for publication. Once published, the citation details will be updated here. In the meantime, please cite this repository using its URL: [https://github.com/Raingel/ShiitakeIGS1](https://github.com/Raingel/ShiitakeIGS1)
+This database is published in *Journal of Basic Microbiology*  
+<https://doi.org/10.1002/jobm.202400452>  
 
+If you use these resources, please cite the article.
 ## Database Updates
 The database is designed to accept sequence updates. In the root directory, there is a `shiitake_list.csv` file. Fill in the table with the required information, as shown in the example below, and submit a pull request. After review, the sequences will be added to the database and rebuilt using GitHub Actions.
 
