@@ -47,9 +47,8 @@ Shiitake DNA can be extracted using standard laboratory methods or commercial ki
   3. Final extension: 68°C for 10 minutes
 
 **Note:**
-1. Important In my published article, the sequence for primer LR230 寫成CCACAGCCAAGGGGACGGGCTTGG 。但實際上應該是
-2. If your shiitake strains have multiple IGS variants within the genome (as most do), you cannot directly send PCR samples for traditional Sanger sequencing. Instead, use a cloning kit to purify or consider using high-throughput sequencing.
-3. To amplify the full-length rDNA fragment (approximately 10 kb), it is recommended to use high-efficiency DNA polymerases with proofreading capability.
+1. If your shiitake strains have multiple IGS variants within the genome (as most do), you cannot directly send PCR samples for traditional Sanger sequencing. Instead, use a cloning kit to purify or consider using high-throughput sequencing.
+2. To amplify the full-length rDNA fragment (approximately 10 kb), it is recommended to use high-efficiency DNA polymerases with proofreading capability.
 
 ### **✓ Instructions for Using the Webpage**
 
@@ -78,7 +77,6 @@ Shiitake DNA can be extracted using standard laboratory methods or commercial ki
 ## Citation
 This database is published in *Journal of Basic Microbiology*  
 <https://doi.org/10.1002/jobm.202400452>  
-
 If you use these resources, please cite the article.
 ## Database Updates
 The database is designed to accept sequence updates. In the root directory, there is a `shiitake_list.csv` file. Fill in the table with the required information, as shown in the example below, and submit a pull request. After review, the sequences will be added to the database and rebuilt using GitHub Actions.
